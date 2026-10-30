@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS chu_dwh.fait_hospitalisation;
+DROP TABLE IF EXISTS chu_dwh.fact_hospitalisation;
 
-CREATE TABLE chu_dwh.fait_hospitalisation (
+CREATE TABLE chu_dwh.fact_hospitalisation (
   ID_HOSPITALISATION       INT      COMMENT 'Identifiant du séjour (dimension dégénérée). [PK]',
   FK_DIM_TEMPS_ENTREE      INT      COMMENT 'Date d’entrée. [FK DIM_TEMPS.ID_DIM_TEMPS]',
   FK_DIM_TEMPS_SORTIE      INT      COMMENT 'Date de sortie. [FK DIM_TEMPS.ID_DIM_TEMPS]',
@@ -12,4 +12,5 @@ CREATE TABLE chu_dwh.fait_hospitalisation (
   DESC_DIAGNOSTIC          STRING   COMMENT 'Suite donnée au diagnostic.'
 )
 COMMENT 'Fait – 1 ligne = 1 séjour d’hospitalisation'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/fact_hospitalisation'
 STORED AS ORC;

@@ -6,4 +6,5 @@ CREATE TABLE chu_dwh.dim_mutuelle (
   NM_MUTUELLE              STRING   COMMENT 'Nom de la mutuelle.'
 )
 COMMENT 'Dimension – 1 ligne = 1 mutuelle'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_mutuelle'
 STORED AS ORC;

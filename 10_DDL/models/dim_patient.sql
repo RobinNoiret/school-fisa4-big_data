@@ -9,4 +9,5 @@ CREATE TABLE chu_dwh.dim_patient (
   FK_DIM_VILLE             INT      COMMENT 'Ville de résidence. [FK DIM_VILLE.ID_DIM_VILLE]'
 )
 COMMENT 'Dimension – 1 ligne = 1 patient'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_patient'
 STORED AS ORC;

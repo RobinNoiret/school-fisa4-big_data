@@ -6,4 +6,5 @@ CREATE TABLE chu_dwh.dim_diagnostic (
   NM_DIAGNOSTIC            STRING   COMMENT 'Libellé du diagnostic.'
 )
 COMMENT 'Dimension – 1 ligne = 1 diagnostic'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_diagnostic'
 STORED AS ORC;

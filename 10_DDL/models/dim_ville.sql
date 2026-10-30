@@ -6,4 +6,5 @@ CREATE TABLE chu_dwh.dim_ville (
   FK_DIM_DEPARTEMENT       INT      COMMENT 'Département de la ville. [FK DIM_DEPARTEMENT.ID_DIM_DEPARTEMENT]'
 )
 COMMENT 'Dimension – 1 ligne = 1 ville dans un département'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_ville'
 STORED AS ORC;

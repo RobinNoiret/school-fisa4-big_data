@@ -10,4 +10,5 @@ CREATE TABLE chu_dwh.dim_etablissement (
   FK_DIM_VILLE             INT      COMMENT 'Commune de l’établissement. [FK DIM_VILLE.ID_DIM_VILLE]'
 )
 COMMENT 'Dimension – 1 ligne = 1 établissement (organisation)'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_etablissement'
 STORED AS ORC;

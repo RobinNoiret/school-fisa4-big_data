@@ -5,4 +5,5 @@ CREATE TABLE chu_dwh.dim_pays (
   NM_PAYS                  STRING   COMMENT 'Nom du pays (MAJUSCULES).'
 )
 COMMENT 'Dimension – 1 ligne = 1 pays'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_pays'
 STORED AS ORC;

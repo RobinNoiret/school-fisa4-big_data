@@ -11,4 +11,5 @@ CREATE TABLE chu_dwh.dim_professionnel (
   FK_DIM_ETABLISSEMENT     INT      COMMENT 'Établissement de rattachement principal. [FK DIM_ETABLISSEMENT.ID_DIM_ETABLISSEMENT]'
 )
 COMMENT 'Dimension – 1 ligne = 1 professionnel de santé'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_professionnel'
 STORED AS ORC;

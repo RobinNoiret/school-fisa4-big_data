@@ -11,4 +11,5 @@ CREATE TABLE chu_dwh.dim_temps (
   FL_WEEK_END              BOOLEAN  COMMENT 'Samedi ou dimanche ?'
 )
 COMMENT 'Dimension – 1 ligne = 1 jour, de date.DT_DEBUT à date.DT_FIN'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_temps'
 STORED AS ORC;

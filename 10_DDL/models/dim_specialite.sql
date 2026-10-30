@@ -7,4 +7,5 @@ CREATE TABLE chu_dwh.dim_specialite (
   NM_FONCTION              STRING   COMMENT 'Fonction.'
 )
 COMMENT 'Dimension – 1 ligne = 1 spécialité'
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_specialite'
 STORED AS ORC;
