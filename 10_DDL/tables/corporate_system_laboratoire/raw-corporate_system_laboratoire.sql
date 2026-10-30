@@ -1,7 +1,7 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_laboratoire (
 
-    ID_TECH                            INTEGER   COMMENT 'Identifiant technique',
-    ID_LABORATOIRE                     INTEGER   COMMENT 'Identifiant laboratoire',
+    ID_TECH                            INT   COMMENT 'Identifiant technique',
+    ID_LABORATOIRE                     INT   COMMENT 'Identifiant laboratoire',
     NM_LABORATOIRE                     STRING    COMMENT 'Nom laboratoire',
     NM_PAYS                            STRING    COMMENT 'Nom pays'
 

@@ -1,6 +1,6 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.soins_system_medicament (
 
-    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
+    ID_TECH                            INT  COMMENT 'Identifiant technique',
     CD_CIS                             STRING   COMMENT 'Code CIS',
     NM_MEDICAMENT                      STRING   COMMENT 'Nom medicament',
     TXT_FORME_PHARMA                   STRING   COMMENT 'Texte forme pharmaceutique',

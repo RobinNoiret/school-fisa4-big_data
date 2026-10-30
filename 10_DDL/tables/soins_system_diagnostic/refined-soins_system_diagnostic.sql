@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS chu_refined.soins_system_diagnostic (
 
-    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
+    ID_TECH                            INT  COMMENT 'Identifiant technique',
     CD_DIAGNOSTIC                      STRING   COMMENT 'Code diagnostic',
     NM_DIAGNOSTIC                      STRING   COMMENT 'Nom diagnostic',
     

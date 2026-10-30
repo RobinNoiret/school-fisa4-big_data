@@ -1,6 +1,6 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_professionnel_sante (
 
-    ID_TECH                 INTEGER     COMMENT 'Identifiant technique',
+    ID_TECH                 INT     COMMENT 'Identifiant technique',
     ID_PROFESSIONNEL        STRING      COMMENT 'Identifiant du professionnel de sante',
     TXT_CIVILITE            STRING      COMMENT 'Civilite du professionnel de sante',
     TXT_CATEGORIE_PRO       STRING      COMMENT 'Categorie professionnelle du professionnel de sante',

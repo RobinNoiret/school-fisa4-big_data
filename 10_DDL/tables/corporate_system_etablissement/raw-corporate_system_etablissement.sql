@@ -1,6 +1,6 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_etablissement (
 
-    ID_TECH                            INTEGER   COMMENT 'Identifiant technique',
+    ID_TECH                            INT   COMMENT 'Identifiant technique',
     TXT_CEDEX                          STRING   COMMENT 'Texte cedex',
     CD_COMMUNE                         STRING   COMMENT 'Code commune',
     CD_POSTAL                          STRING   COMMENT 'Code postal',   
