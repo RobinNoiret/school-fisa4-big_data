@@ -10,7 +10,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_professionnel_sante
     TXT_SPECIALITE          STRING      COMMENT 'Specialite du professionnel de sante',
     TXT_COMMUNE             STRING      COMMENT 'Commune du professionnel de sante',
     ID_ORGANISATION         STRING      COMMENT 'Identifiant de l organisation du professionnel de sante',
-    TXT_MODE_EXERCICE       STRING      COMMENT 'Mode d exercice du professionnel de sante',
+    TXT_MODE_EXERCICE       STRING      COMMENT 'Mode d exercice du professionnel de sante'
 
 )
 

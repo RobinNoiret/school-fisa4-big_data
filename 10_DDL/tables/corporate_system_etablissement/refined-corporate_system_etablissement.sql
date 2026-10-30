@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_etablissement (
     NB_TEL                             STRING   COMMENT 'Nombre telephone',
     NB_TEL_BIS                         STRING   COMMENT 'Nombre telephone secondaire',
     NM_TYPE_VOIE                       STRING   COMMENT 'Nom type voie',
-    TXT_VOIE                           STRING   COMMENT 'Texte voie'
+    TXT_VOIE                           STRING   COMMENT 'Texte voie',
     
     -- champs techniques
     fl_active                          BOOLEAN  COMMENT 'Ligne active',
