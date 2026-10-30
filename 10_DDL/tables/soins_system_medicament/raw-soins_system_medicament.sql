@@ -20,6 +20,6 @@ COMMENT 'Table externe RAW soins_system_medicament'
 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ';'
 STORED AS TEXTFILE
-LOCATION '/user/cloudera/chu_dataplatform/raw/soins/system/medicaments'
+LOCATION '/user/cloudera/chu_dataplatform/raw/soins/system/medicament'
 
 ;

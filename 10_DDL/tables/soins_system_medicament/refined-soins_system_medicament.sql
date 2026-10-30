@@ -24,5 +24,5 @@ CREATE TABLE IF NOT EXISTS chu_refined.soins_system_medicament (
 COMMENT 'Table interne REFINED soins_system_medicament'
 STORED AS ORC
 
-LOCATION '/user/cloudera/chu_dataplatform/refined/soins/system/medicaments'
+LOCATION '/user/cloudera/chu_dataplatform/refined/soins/system/medicament'
 ;

@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS chu_refined.soins_system_hospitalisation (
 COMMENT 'Table interne REFINED soins_system_hospitalisation'
 STORED AS ORC
 
-LOCATION '/user/cloudera/chu_dataplatform/refined/soins/system/hospitalisations'
+LOCATION '/user/cloudera/chu_dataplatform/refined/soins/system/hospitalisation'
 ;
