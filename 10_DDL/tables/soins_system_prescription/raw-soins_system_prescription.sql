@@ -1,6 +1,7 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.soins_system_prescription (
 
-    ID_CONSULTATION                    STRING   COMMENT 'Identifiant consultation',
+    ID_TECH                            INT  COMMENT 'Identifiant technique',
+    ID_CONSULTATION                    INT  COMMENT 'Identifiant consultation',
     CD_CIS                             STRING   COMMENT 'Code CIS'
 
 )
