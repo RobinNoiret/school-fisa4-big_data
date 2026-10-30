@@ -1,8 +1,9 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_mutuelle (
 
-    ID_MUTUELLE                        STRING   COMMENT 'Identifiant mutuelle',
-    NM_MUTUELLE                        STRING   COMMENT 'Nom mutuelle',
-    TXT_ADRESSE                        STRING   COMMENT 'Texte adresse'
+    ID_TECH                            INTEGER   COMMENT 'Identifiant technique',
+    ID_MUTUELLE                        INTEGER   COMMENT 'Identifiant mutuelle',
+    NM_MUTUELLE                        STRING    COMMENT 'Nom mutuelle',
+    TXT_ADRESSE                        STRING    COMMENT 'Texte adresse'
 
 )
 

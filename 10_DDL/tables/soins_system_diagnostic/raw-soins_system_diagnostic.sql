@@ -1,5 +1,6 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.soins_system_diagnostic (
 
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
     CD_DIAGNOSTIC                      STRING   COMMENT 'Code diagnostic',
     NM_DIAGNOSTIC                      STRING   COMMENT 'Nom diagnostic'
 

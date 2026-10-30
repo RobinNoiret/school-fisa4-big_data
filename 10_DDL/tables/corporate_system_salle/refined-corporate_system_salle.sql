@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_salle (
 
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
     ID_SALLE                           STRING   COMMENT 'Identifiant salle',
-    ID_CONSULTATION                    INT      COMMENT 'Identifiant consultation',
+    ID_CONSULTATION                    INTEGER  COMMENT 'Identifiant consultation',
     CD_BLOC                            STRING   COMMENT 'Code bloc',
-    NB_ETAGE                           STRING   COMMENT 'Nombre etage',
-    NB_SALLE                           STRING   COMMENT 'Nombre salle',
+    NB_ETAGE                           STRING   COMMENT 'Numéro etage',
+    NB_SALLE                           STRING   COMMENT 'Numéro salle',
 
     -- champs techniques
     fl_active                          BOOLEAN  COMMENT 'Ligne active',

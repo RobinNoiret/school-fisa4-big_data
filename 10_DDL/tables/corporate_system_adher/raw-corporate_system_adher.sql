@@ -1,7 +1,7 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_adher (
 
-    ID_PATIENT                         STRING   COMMENT 'Identifiant patient',
-    ID_MUTUELLE                        STRING   COMMENT 'Identifiant mutuelle'
+    ID_PATIENT                         INTEGER   COMMENT 'Identifiant patient',
+    ID_MUTUELLE                        INTEGER   COMMENT 'Identifiant mutuelle'
 
 )
 

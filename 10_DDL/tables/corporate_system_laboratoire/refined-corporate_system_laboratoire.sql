@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_laboratoire (
 
-    ID_LABORATOIRE                     INT      COMMENT 'Identifiant laboratoire',
-    NM_LABORATOIRE                     STRING   COMMENT 'Nom laboratoire',
-    NM_PAYS                            STRING   COMMENT 'Nom pays',
+    ID_TECH                            INTEGER   COMMENT 'Identifiant technique',
+    ID_LABORATOIRE                     INTEGER   COMMENT 'Identifiant laboratoire',
+    NM_LABORATOIRE                     STRING    COMMENT 'Nom laboratoire',
+    NM_PAYS                            STRING    COMMENT 'Nom pays',
 
     -- champs techniques
     fl_active                          BOOLEAN  COMMENT 'Ligne active',

@@ -1,12 +1,13 @@
 CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_date (
 
-    DT_DEBUT                           DATE     COMMENT 'Date debut',
-    DT_FIN                             DATE     COMMENT 'Date fin',
+    ID_TECH        INTEGER   COMMENT 'Identifiant technique',
+    DT_DEBUT       DATE      COMMENT 'Date debut',
+    DT_FIN         DATE      COMMENT 'Date fin',
     
     -- champs techniques
-    fl_active                          BOOLEAN  COMMENT 'Ligne active',
-    nm_file                            STRING   COMMENT 'Fichier source',
-    nm_provider                        STRING   COMMENT 'Systeme source'
+    fl_active      BOOLEAN  COMMENT 'Ligne active',
+    nm_file        STRING   COMMENT 'Fichier source',
+    nm_provider    STRING   COMMENT 'Systeme source'
 
 )
 

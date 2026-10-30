@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_mutuelle (
 
-    ID_MUTUELLE                        INT      COMMENT 'Identifiant mutuelle',
-    NM_MUTUELLE                        STRING   COMMENT 'Nom mutuelle',
-    TXT_ADRESSE                        STRING   COMMENT 'Texte adresse',
+    ID_TECH                            INTEGER   COMMENT 'Identifiant technique',
+    ID_MUTUELLE                        INTEGER   COMMENT 'Identifiant mutuelle',
+    NM_MUTUELLE                        STRING    COMMENT 'Nom mutuelle',
+    TXT_ADRESSE                        STRING    COMMENT 'Texte adresse',
     
     -- champs techniques
     fl_active                          BOOLEAN  COMMENT 'Ligne active',

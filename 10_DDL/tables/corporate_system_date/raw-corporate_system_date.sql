@@ -1,7 +1,8 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.corporate_system_date (
 
-    DT_DEBUT                           STRING   COMMENT 'Date debut',
-    DT_FIN                             STRING   COMMENT 'Date fin'
+    ID_TECH        INTEGER   COMMENT 'Identifiant technique',
+    DT_DEBUT       DATE      COMMENT 'Date debut',
+    DT_FIN         DATE      COMMENT 'Date fin'
 
 )
 

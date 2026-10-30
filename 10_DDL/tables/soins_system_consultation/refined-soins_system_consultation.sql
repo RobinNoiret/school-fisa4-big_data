@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS chu_refined.soins_system_consultation (
 
-    ID_CONSULTATION                    INT      COMMENT 'Identifiant consultation',
-    ID_MUTUELLE                        INT      COMMENT 'Identifiant mutuelle',
-    ID_PATIENT                         INT      COMMENT 'Identifiant patient',
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
+    ID_CONSULTATION                    INTEGER  COMMENT 'Identifiant consultation',
+    ID_MUTUELLE                        INTEGER  COMMENT 'Identifiant mutuelle',
+    ID_PATIENT                         INTEGER  COMMENT 'Identifiant patient',
     ID_PROFESSIONNEL_SANTE             STRING   COMMENT 'Identifiant professionnel sante',
     CD_DIAGNOSTIC                      STRING   COMMENT 'Code diagnostic',
     TXT_MOTIF                          STRING   COMMENT 'Texte motif',

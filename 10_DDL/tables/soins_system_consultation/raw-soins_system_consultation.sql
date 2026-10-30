@@ -1,12 +1,13 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS chu_raw.soins_system_consultation (
 
-    ID_CONSULTATION                    STRING   COMMENT 'Identifiant consultation',
-    ID_MUTUELLE                        STRING   COMMENT 'Identifiant mutuelle',
-    ID_PATIENT                         STRING   COMMENT 'Identifiant patient',
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
+    ID_CONSULTATION                    INTEGER  COMMENT 'Identifiant consultation',
+    ID_MUTUELLE                        INTEGER  COMMENT 'Identifiant mutuelle',
+    ID_PATIENT                         INTEGER  COMMENT 'Identifiant patient',
     ID_PROFESSIONNEL_SANTE             STRING   COMMENT 'Identifiant professionnel sante',
     CD_DIAGNOSTIC                      STRING   COMMENT 'Code diagnostic',
     TXT_MOTIF                          STRING   COMMENT 'Texte motif',
-    DT_CONSULTATION                    STRING   COMMENT 'Date consultation',
+    DT_CONSULTATION                    DATE     COMMENT 'Date consultation',
     TS_DEBUT                           STRING   COMMENT 'Heure debut',
     TS_FIN                             STRING   COMMENT 'Heure fin'
 

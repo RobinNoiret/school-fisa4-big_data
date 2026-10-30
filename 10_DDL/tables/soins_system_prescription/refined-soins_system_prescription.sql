@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS chu_refined.soins_system_prescription (
 
-    ID_CONSULTATION                    INT      COMMENT 'Identifiant consultation',
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
+    ID_CONSULTATION                    INTEGER  COMMENT 'Identifiant consultation',
     CD_CIS                             STRING   COMMENT 'Code CIS',
     
     -- champs techniques

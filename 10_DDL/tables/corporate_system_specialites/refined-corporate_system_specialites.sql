@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_specialites (
 
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
     CD_SPECIALITE                      STRING   COMMENT 'Code specialite',
     NM_FONCTION                        STRING   COMMENT 'Nom fonction',
     NM_SPECIALITE                      STRING   COMMENT 'Nom specialite',

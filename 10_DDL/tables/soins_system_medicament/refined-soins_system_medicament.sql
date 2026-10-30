@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS chu_refined.soins_system_medicament (
 
+    ID_TECH                            INTEGER  COMMENT 'Identifiant technique',
     CD_CIS                             STRING   COMMENT 'Code CIS',
     NM_MEDICAMENT                      STRING   COMMENT 'Nom medicament',
     TXT_FORME_PHARMA                   STRING   COMMENT 'Texte forme pharmaceutique',
