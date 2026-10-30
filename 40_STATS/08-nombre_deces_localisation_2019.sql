@@ -1,0 +1,16 @@
+SELECT
+    d.CD_DEPARTEMENT,
+    COUNT(*) AS nb_deces
+
+FROM chu_dwh.fact_deces f
+
+LEFT JOIN chu_dwh.dim_departement d
+    ON f.FK_DIM_DEPARTEMENT_DECES = d.ID_DIM_DEPARTEMENT
+
+WHERE f.NB_ANNEE_DECES = 2019
+
+GROUP BY
+    d.CD_DEPARTEMENT
+
+ORDER BY
+    d.CD_DEPARTEMENT;
