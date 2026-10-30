@@ -26,20 +26,14 @@ deduplicated AS (
     FROM prepared
 )
 
-INSERT OVERWRITE TABLE chu_refined.soins_system_diagnostic (
-    ID_TECH,
-    CD_DIAGNOSTIC,
-    NM_DIAGNOSTIC,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.soins_system_diagnostic
 
-SELECT ID_TECH,
-       CD_DIAGNOSTIC,
-       NM_DIAGNOSTIC,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'system'
-    FROM deduplicated
-    WHERE RN = 1;
+SELECT
+    ID_TECH AS ID_TECH,
+    CD_DIAGNOSTIC AS CD_DIAGNOSTIC,
+    NM_DIAGNOSTIC AS NM_DIAGNOSTIC,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'system' AS NM_PROVIDER
+FROM deduplicated
+WHERE RN = 1;

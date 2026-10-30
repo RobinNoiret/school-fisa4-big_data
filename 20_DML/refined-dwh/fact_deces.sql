@@ -21,21 +21,15 @@ deces_prepared AS (
     FROM deces_source
 )
 
-INSERT OVERWRITE TABLE chu_dwh.fait_deces (
-    ID_FAIT_DECES,
-    FK_DIM_DEPARTEMENT_DECES,
-    FK_DIM_PAYS_NAISSANCE,
-    CD_SEXE,
-    NB_ANNEE_DECES,
-    NB_AGE_DECES
-)
+INSERT OVERWRITE TABLE chu_dwh.fact_deces
 
-SELECT ROW_NUMBER() OVER (ORDER BY src.NB_ACTE_DECES),
-       departement.ID_DIM_DEPARTEMENT,
-       pays.ID_DIM_PAYS,
-       src.CD_SEXE,
-       src.NB_ANNEE_DECES,
-       src.NB_AGE_DECES
-    FROM deces_prepared src
+SELECT
+    ROW_NUMBER() OVER (ORDER BY src.NB_ACTE_DECES) AS ID_FAIT_DECES,
+    departement.ID_DIM_DEPARTEMENT AS FK_DIM_DEPARTEMENT_DECES,
+    pays.ID_DIM_PAYS AS FK_DIM_PAYS_NAISSANCE,
+    src.CD_SEXE AS CD_SEXE,
+    src.NB_ANNEE_DECES AS NB_ANNEE_DECES,
+    src.NB_AGE_DECES AS NB_AGE_DECES
+FROM deces_prepared src
 INNER JOIN chu_dwh.dim_departement departement ON departement.CD_DEPARTEMENT = src.CD_DEPARTEMENT_DECES
 INNER JOIN chu_dwh.dim_pays pays ON pays.NM_PAYS = src.NM_PAYS_NAISSANCE;

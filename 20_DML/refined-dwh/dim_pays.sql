@@ -19,11 +19,9 @@ pays_distinct AS (
     FROM pays_source
 )
 
-INSERT OVERWRITE TABLE chu_dwh.dim_pays (
-    ID_DIM_PAYS,
-    NM_PAYS
-)
+INSERT OVERWRITE TABLE chu_dwh.dim_pays
 
-SELECT ROW_NUMBER() OVER (ORDER BY NM_PAYS),
-       NM_PAYS
-    FROM pays_distinct;
+SELECT
+    ROW_NUMBER() OVER (ORDER BY NM_PAYS) AS ID_DIM_PAYS,
+    NM_PAYS AS NM_PAYS
+FROM pays_distinct;

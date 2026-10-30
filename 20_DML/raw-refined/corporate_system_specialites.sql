@@ -29,22 +29,15 @@ deduplicated AS (
     FROM prepared
 )
 
-INSERT OVERWRITE TABLE chu_refined.corporate_system_specialites (
-    ID_TECH,
-    CD_SPECIALITE,
-    NM_FONCTION,
-    NM_SPECIALITE,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.corporate_system_specialites
 
-SELECT ID_TECH,
-       CD_SPECIALITE,
-       NM_FONCTION,
-       NM_SPECIALITE,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'system'
-    FROM deduplicated
-    WHERE RN = 1;
+SELECT
+    ID_TECH AS ID_TECH,
+    CD_SPECIALITE AS CD_SPECIALITE,
+    NM_FONCTION AS NM_FONCTION,
+    NM_SPECIALITE AS NM_SPECIALITE,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'system' AS NM_PROVIDER
+FROM deduplicated
+WHERE RN = 1;

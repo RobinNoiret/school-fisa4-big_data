@@ -8,14 +8,11 @@ WITH departement_source AS (
       AND NM_PAYS IS NOT NULL AND TRIM(NM_PAYS) <> ''
 )
 
-INSERT OVERWRITE TABLE chu_dwh.dim_departement (
-    ID_DIM_DEPARTEMENT,
-    CD_DEPARTEMENT,
-    FK_DIM_PAYS
-)
+INSERT OVERWRITE TABLE chu_dwh.dim_departement
 
-SELECT ROW_NUMBER() OVER (ORDER BY src.CD_DEPARTEMENT, src.NM_PAYS),
-       src.CD_DEPARTEMENT,
-       pays.ID_DIM_PAYS
-    FROM departement_source src
+SELECT
+    ROW_NUMBER() OVER (ORDER BY src.CD_DEPARTEMENT, src.NM_PAYS) AS ID_DIM_DEPARTEMENT,
+    src.CD_DEPARTEMENT AS CD_DEPARTEMENT,
+    pays.ID_DIM_PAYS AS FK_DIM_PAYS
+FROM departement_source src
 INNER JOIN chu_dwh.dim_pays pays ON pays.NM_PAYS = src.NM_PAYS;

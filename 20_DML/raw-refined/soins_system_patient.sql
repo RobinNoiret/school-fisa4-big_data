@@ -47,34 +47,21 @@ deduplicated AS (
     FROM prepared
 )
 
-INSERT OVERWRITE TABLE chu_refined.soins_system_patient (
-    ID_TECH,
-    ID_PATIENT,
-    CD_SEXE,
-    NM_VILLE,
-    CD_DEPARTEMENT,
-    NM_PAYS,
-    DT_NAISSANCE,
-    CD_GROUPE_SANGUIN,
-    NB_POID,
-    NB_TAILLE,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.soins_system_patient
 
-SELECT ID_TECH,
-       ID_PATIENT,
-       CD_SEXE,
-       NM_VILLE,
-       CD_DEPARTEMENT,
-       NM_PAYS,
-       DT_NAISSANCE,
-       CD_GROUPE_SANGUIN,
-       NB_POID,
-       NB_TAILLE,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'system'
-    FROM deduplicated
+SELECT
+    ID_TECH AS ID_TECH,
+    ID_PATIENT AS ID_PATIENT,
+    CD_SEXE AS CD_SEXE,
+    NM_VILLE AS NM_VILLE,
+    CD_DEPARTEMENT AS CD_DEPARTEMENT,
+    NM_PAYS AS NM_PAYS,
+    DT_NAISSANCE AS DT_NAISSANCE,
+    CD_GROUPE_SANGUIN AS CD_GROUPE_SANGUIN,
+    NB_POID AS NB_POID,
+    NB_TAILLE AS NB_TAILLE,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'system' AS NM_PROVIDER
+FROM deduplicated
 WHERE RN = 1;

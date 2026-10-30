@@ -16,18 +16,13 @@ deduplicated AS (
     FROM source_raw
 )
 
-INSERT OVERWRITE TABLE chu_refined.corporate_system_adher (
-    ID_PATIENT,
-    ID_MUTUELLE,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.corporate_system_adher
 
-SELECT ID_PATIENT,
-       ID_MUTUELLE,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'system'
-    FROM deduplicated
-    WHERE RN = 1;
+SELECT
+    ID_PATIENT AS ID_PATIENT,
+    ID_MUTUELLE AS ID_MUTUELLE,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'system' AS NM_PROVIDER
+FROM deduplicated
+WHERE RN = 1;

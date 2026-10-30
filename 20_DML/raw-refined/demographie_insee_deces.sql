@@ -44,32 +44,20 @@ deduplicated AS (
     FROM prepared
 )
 
-INSERT OVERWRITE TABLE chu_refined.demographie_insee_deces (
-    ID_TECH,
-    NM_SEXE,
-    DT_NAISSANCE,
-    CD_LIEU_NAISSANCE,
-    NM_VILLE,
-    NM_PAYS,
-    DT_DECES,
-    CD_LIEU_DECES,
-    NB_ACTE_DECES,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.demographie_insee_deces
 
-SELECT ID_TECH,
-       NM_SEXE,
-       DT_NAISSANCE,
-       CD_LIEU_NAISSANCE,
-       NM_VILLE,
-       NM_PAYS,
-       DT_DECES,
-       CD_LIEU_DECES,
-       NB_ACTE_DECES,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'insee'
-    FROM deduplicated
+SELECT
+    ID_TECH AS ID_TECH,
+    NM_SEXE AS NM_SEXE,
+    DT_NAISSANCE AS DT_NAISSANCE,
+    CD_LIEU_NAISSANCE AS CD_LIEU_NAISSANCE,
+    NM_VILLE AS NM_VILLE,
+    NM_PAYS AS NM_PAYS,
+    DT_DECES AS DT_DECES,
+    CD_LIEU_DECES AS CD_LIEU_DECES,
+    NB_ACTE_DECES AS NB_ACTE_DECES,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'insee' AS NM_PROVIDER
+FROM deduplicated
 WHERE RN = 1;

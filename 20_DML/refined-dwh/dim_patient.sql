@@ -11,22 +11,16 @@ WITH patient_source AS (
     WHERE FL_ACTIVE = TRUE AND ID_PATIENT IS NOT NULL
 )
 
-INSERT OVERWRITE TABLE chu_dwh.dim_patient (
-    ID_DIM_PATIENT,
-    ID_PATIENT,
-    CD_SEXE,
-    NB_ANNEE_NAISSANCE,
-    CD_GROUPE_SANGUIN,
-    FK_DIM_VILLE
-)
+INSERT OVERWRITE TABLE chu_dwh.dim_patient
 
-SELECT ROW_NUMBER() OVER (ORDER BY src.ID_PATIENT),
-       src.ID_PATIENT,
-       src.CD_SEXE,
-       src.NB_ANNEE_NAISSANCE,
-       src.CD_GROUPE_SANGUIN,
-       ville.ID_DIM_VILLE
-    FROM patient_source src
+SELECT
+    ROW_NUMBER() OVER (ORDER BY src.ID_PATIENT) AS ID_DIM_PATIENT,
+    src.ID_PATIENT AS ID_PATIENT,
+    src.CD_SEXE AS CD_SEXE,
+    src.NB_ANNEE_NAISSANCE AS NB_ANNEE_NAISSANCE,
+    src.CD_GROUPE_SANGUIN AS CD_GROUPE_SANGUIN,
+    ville.ID_DIM_VILLE AS FK_DIM_VILLE
+FROM patient_source src
 LEFT JOIN chu_dwh.dim_departement departement ON departement.CD_DEPARTEMENT = src.CD_DEPARTEMENT
 LEFT JOIN chu_dwh.dim_ville ville ON ville.NM_VILLE = src.NM_VILLE
                                   AND ville.FK_DIM_DEPARTEMENT = departement.ID_DIM_DEPARTEMENT;

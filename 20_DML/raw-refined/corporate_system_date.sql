@@ -18,20 +18,14 @@ deduplicated AS (
     FROM source_raw
 )
 
-INSERT OVERWRITE TABLE chu_refined.corporate_system_date (
-    ID_TECH,
-    DT_DEBUT,
-    DT_FIN,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.corporate_system_date
 
-SELECT ID_TECH,
-       DT_DEBUT,
-       DT_FIN,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'system'
-    FROM deduplicated
-    WHERE RN = 1;
+SELECT
+    ID_TECH AS ID_TECH,
+    DT_DEBUT AS DT_DEBUT,
+    DT_FIN AS DT_FIN,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'system' AS NM_PROVIDER
+FROM deduplicated
+WHERE RN = 1;

@@ -8,14 +8,11 @@ WITH ville_source AS (
       AND CD_DEPARTEMENT IS NOT NULL AND TRIM(CD_DEPARTEMENT) <> ''
 )
 
-INSERT OVERWRITE TABLE chu_dwh.dim_ville (
-    ID_DIM_VILLE,
-    NM_VILLE,
-    FK_DIM_DEPARTEMENT
-)
+INSERT OVERWRITE TABLE chu_dwh.dim_ville
 
-SELECT ROW_NUMBER() OVER (ORDER BY src.NM_VILLE, src.CD_DEPARTEMENT),
-       src.NM_VILLE,
-       departement.ID_DIM_DEPARTEMENT
-    FROM ville_source src
+SELECT
+    ROW_NUMBER() OVER (ORDER BY src.NM_VILLE, src.CD_DEPARTEMENT) AS ID_DIM_VILLE,
+    src.NM_VILLE AS NM_VILLE,
+    departement.ID_DIM_DEPARTEMENT AS FK_DIM_DEPARTEMENT
+FROM ville_source src
 INNER JOIN chu_dwh.dim_departement departement ON departement.CD_DEPARTEMENT = src.CD_DEPARTEMENT;

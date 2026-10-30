@@ -35,26 +35,17 @@ deduplicated AS (
     FROM prepared
 )
 
-INSERT OVERWRITE TABLE chu_refined.corporate_system_salle (
-    ID_TECH,
-    ID_SALLE,
-    ID_CONSULTATION,
-    CD_BLOC,
-    NB_ETAGE,
-    NB_SALLE,
-    FL_ACTIVE,
-    NM_FILE,
-    NM_PROVIDER
-)
+INSERT OVERWRITE TABLE chu_refined.corporate_system_salle
 
-SELECT ID_TECH,
-       ID_SALLE,
-       ID_CONSULTATION,
-       CD_BLOC,
-       NB_ETAGE,
-       NB_SALLE,
-       CAST(1 AS BOOLEAN),
-       NM_FILE,
-       'system'
-    FROM deduplicated
-    WHERE RN = 1;
+SELECT
+    ID_TECH AS ID_TECH,
+    ID_SALLE AS ID_SALLE,
+    ID_CONSULTATION AS ID_CONSULTATION,
+    CD_BLOC AS CD_BLOC,
+    NB_ETAGE AS NB_ETAGE,
+    NB_SALLE AS NB_SALLE,
+    CAST(1 AS BOOLEAN) AS FL_ACTIVE,
+    NM_FILE AS NM_FILE,
+    'system' AS NM_PROVIDER
+FROM deduplicated
+WHERE RN = 1;
