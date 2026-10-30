@@ -1,0 +1,70 @@
+-- RAW -> REFINED | soins_system_hospitalisation
+
+WITH source_raw AS (
+    SELECT ID_TECH,
+           ID_HOSPITALISATION,
+           ID_PATIENT,
+           ID_ORIGANISATION,
+           CD_DIAGNOSTIC,
+           DESC_DIAGNOSTIC,
+           DT_ENTREE,
+           NB_JOUR,
+           INPUT__FILE__NAME AS NM_FILE
+    FROM chu_raw.soins_system_hospitalisation
+    WHERE ID_HOSPITALISATION IS NOT NULL AND DT_ENTREE IS NOT NULL AND NB_JOUR IS NOT NULL
+),
+
+prepared AS (
+    SELECT ID_TECH,
+           ID_HOSPITALISATION,
+           ID_PATIENT,
+           TRIM(ID_ORIGANISATION) AS ID_ORIGANISATION,
+           UPPER(TRIM(CD_DIAGNOSTIC)) AS CD_DIAGNOSTIC,
+           TRIM(DESC_DIAGNOSTIC) AS DESC_DIAGNOSTIC,
+           TRIM(DT_ENTREE) AS DT_ENTREE,
+           NB_JOUR,
+           NM_FILE
+    FROM source_raw
+),
+
+deduplicated AS (
+    SELECT ID_TECH,
+           ID_HOSPITALISATION,
+           ID_PATIENT,
+           ID_ORIGANISATION,
+           CD_DIAGNOSTIC,
+           DESC_DIAGNOSTIC,
+           DT_ENTREE,
+           NB_JOUR,
+           NM_FILE,
+           ROW_NUMBER() OVER (PARTITION BY ID_HOSPITALISATION ORDER BY NM_FILE DESC, ID_TECH DESC) AS RN
+    FROM prepared
+)
+
+INSERT OVERWRITE TABLE chu_refined.soins_system_hospitalisation (
+    ID_TECH,
+    ID_HOSPITALISATION,
+    ID_PATIENT,
+    ID_ORIGANISATION,
+    CD_DIAGNOSTIC,
+    DESC_DIAGNOSTIC,
+    DT_ENTREE,
+    NB_JOUR,
+    FL_ACTIVE,
+    NM_FILE,
+    NM_PROVIDER
+)
+
+SELECT ID_TECH,
+       ID_HOSPITALISATION,
+       ID_PATIENT,
+       ID_ORIGANISATION,
+       CD_DIAGNOSTIC,
+       DESC_DIAGNOSTIC,
+       DT_ENTREE,
+       NB_JOUR,
+       CAST(1 AS BOOLEAN),
+       NM_FILE,
+       'system'
+    FROM deduplicated
+WHERE RN = 1;

@@ -1,0 +1,52 @@
+-- REFINED -> DWH | fact_consultation
+
+WITH consultation_source AS (
+    SELECT ID_CONSULTATION,
+           ID_MUTUELLE,
+           ID_PATIENT,
+           TRIM(ID_PROFESSIONNEL_SANTE) AS ID_PROFESSIONNEL,
+           UPPER(TRIM(CD_DIAGNOSTIC)) AS CD_DIAGNOSTIC,
+           DT_CONSULTATION,
+           TRIM(TS_DEBUT) AS TS_DEBUT,
+           TRIM(TS_FIN) AS TS_FIN
+    FROM chu_refined.soins_system_consultation
+    WHERE FL_ACTIVE = TRUE AND ID_CONSULTATION IS NOT NULL AND DT_CONSULTATION IS NOT NULL
+),
+
+consultation_prepared AS (
+    SELECT ID_CONSULTATION,
+           ID_MUTUELLE,
+           ID_PATIENT,
+           ID_PROFESSIONNEL,
+           CD_DIAGNOSTIC,
+           DT_CONSULTATION,
+           COALESCE(UNIX_TIMESTAMP(CONCAT(CAST(DT_CONSULTATION AS STRING), ' ', TS_DEBUT), 'yyyy-MM-dd HH:mm:ss'), UNIX_TIMESTAMP(CONCAT(CAST(DT_CONSULTATION AS STRING), ' ', TS_DEBUT), 'yyyy-MM-dd HH:mm')) AS TS_DEBUT_SECONDS,
+           COALESCE(UNIX_TIMESTAMP(CONCAT(CAST(DT_CONSULTATION AS STRING), ' ', TS_FIN), 'yyyy-MM-dd HH:mm:ss'), UNIX_TIMESTAMP(CONCAT(CAST(DT_CONSULTATION AS STRING), ' ', TS_FIN), 'yyyy-MM-dd HH:mm')) AS TS_FIN_SECONDS
+    FROM consultation_source
+)
+
+INSERT OVERWRITE TABLE chu_dwh.fait_consultation (
+    ID_CONSULTATION,
+    FK_DIM_TEMPS,
+    FK_DIM_PATIENT,
+    FK_DIM_PROFESSIONNEL,
+    FK_DIM_DIAGNOSTIC,
+    FK_DIM_MUTUELLE,
+    NB_AGE_PATIENT,
+    DUR_CONSULTATION_MIN
+)
+
+SELECT src.ID_CONSULTATION,
+       temps.ID_DIM_TEMPS,
+       patient.ID_DIM_PATIENT,
+       professionnel.ID_DIM_PROFESSIONNEL,
+       diagnostic.ID_DIM_DIAGNOSTIC,
+       mutuelle.ID_DIM_MUTUELLE,
+       YEAR(src.DT_CONSULTATION) - patient.NB_ANNEE_NAISSANCE,
+       CASE WHEN src.TS_DEBUT_SECONDS IS NOT NULL AND src.TS_FIN_SECONDS IS NOT NULL AND src.TS_FIN_SECONDS >= src.TS_DEBUT_SECONDS THEN CAST((src.TS_FIN_SECONDS - src.TS_DEBUT_SECONDS) / 60 AS INT) ELSE NULL END
+    FROM consultation_prepared src
+INNER JOIN chu_dwh.dim_temps temps ON temps.DT_JOUR = src.DT_CONSULTATION
+INNER JOIN chu_dwh.dim_patient patient ON patient.ID_PATIENT = src.ID_PATIENT
+INNER JOIN chu_dwh.dim_professionnel professionnel ON professionnel.ID_PROFESSIONNEL = src.ID_PROFESSIONNEL
+INNER JOIN chu_dwh.dim_diagnostic diagnostic ON diagnostic.CD_DIAGNOSTIC = src.CD_DIAGNOSTIC
+INNER JOIN chu_dwh.dim_mutuelle mutuelle ON mutuelle.ID_MUTUELLE = src.ID_MUTUELLE;

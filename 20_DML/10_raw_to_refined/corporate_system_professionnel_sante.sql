@@ -1,0 +1,85 @@
+-- RAW -> REFINED | corporate_system_professionnel_sante
+
+WITH source_raw AS (
+    SELECT ID_TECH,
+           ID_PROFESSIONNEL,
+           TXT_CIVILITE,
+           TXT_CATEGORIE_PRO,
+           TXT_PROFESSION,
+           TXT_TYPE_IDENTIFIANT,
+           CD_SPECIALITE,
+           TXT_SPECIALITE,
+           TXT_COMMUNE,
+           ID_ORGANISATION,
+           TXT_MODE_EXERCICE,
+           INPUT__FILE__NAME AS NM_FILE
+    FROM chu_raw.corporate_system_professionnel_sante
+    WHERE ID_PROFESSIONNEL IS NOT NULL
+),
+
+prepared AS (
+    SELECT ID_TECH,
+           TRIM(ID_PROFESSIONNEL) AS ID_PROFESSIONNEL,
+           UPPER(TRIM(TXT_CIVILITE)) AS TXT_CIVILITE,
+           UPPER(TRIM(TXT_CATEGORIE_PRO)) AS TXT_CATEGORIE_PRO,
+           UPPER(TRIM(TXT_PROFESSION)) AS TXT_PROFESSION,
+           UPPER(TRIM(TXT_TYPE_IDENTIFIANT)) AS TXT_TYPE_IDENTIFIANT,
+           UPPER(TRIM(CD_SPECIALITE)) AS CD_SPECIALITE,
+           UPPER(TRIM(TXT_SPECIALITE)) AS TXT_SPECIALITE,
+           UPPER(TRIM(TXT_COMMUNE)) AS TXT_COMMUNE,
+           TRIM(ID_ORGANISATION) AS ID_ORGANISATION,
+           UPPER(TRIM(TXT_MODE_EXERCICE)) AS TXT_MODE_EXERCICE,
+           NM_FILE
+    FROM source_raw
+),
+
+deduplicated AS (
+    SELECT ID_TECH,
+           ID_PROFESSIONNEL,
+           TXT_CIVILITE,
+           TXT_CATEGORIE_PRO,
+           TXT_PROFESSION,
+           TXT_TYPE_IDENTIFIANT,
+           CD_SPECIALITE,
+           TXT_SPECIALITE,
+           TXT_COMMUNE,
+           ID_ORGANISATION,
+           TXT_MODE_EXERCICE,
+           NM_FILE,
+           ROW_NUMBER() OVER (PARTITION BY ID_PROFESSIONNEL ORDER BY NM_FILE DESC, ID_TECH DESC) AS RN
+    FROM prepared
+)
+
+INSERT OVERWRITE TABLE chu_refined.corporate_system_professionnel_sante (
+    ID_TECH,
+    ID_PROFESSIONNEL,
+    TXT_CIVILITE,
+    TXT_CATEGORIE_PRO,
+    TXT_PROFESSION,
+    TXT_TYPE_IDENTIFIANT,
+    CD_SPECIALITE,
+    TXT_SPECIALITE,
+    TXT_COMMUNE,
+    ID_ORGANISATION,
+    TXT_MODE_EXERCICE,
+    FL_ACTIVE,
+    NM_FILE,
+    NM_PROVIDER
+)
+
+SELECT ID_TECH,
+       ID_PROFESSIONNEL,
+       TXT_CIVILITE,
+       TXT_CATEGORIE_PRO,
+       TXT_PROFESSION,
+       TXT_TYPE_IDENTIFIANT,
+       CD_SPECIALITE,
+       TXT_SPECIALITE,
+       TXT_COMMUNE,
+       ID_ORGANISATION,
+       TXT_MODE_EXERCICE,
+       CAST(1 AS BOOLEAN),
+       NM_FILE,
+       'system'
+    FROM deduplicated
+WHERE RN = 1;
