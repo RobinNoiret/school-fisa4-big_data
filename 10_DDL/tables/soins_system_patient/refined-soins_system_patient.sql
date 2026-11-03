@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS chu_refined.soins_system_patient (
 )
 
 COMMENT 'Table interne REFINED soins_system_patient'
+
+CLUSTERED BY (ID_PATIENT)
+INTO 4 BUCKETS
+
 STORED AS ORC
 
 LOCATION '/user/cloudera/chu_dataplatform/refined/soins/system/patient'
