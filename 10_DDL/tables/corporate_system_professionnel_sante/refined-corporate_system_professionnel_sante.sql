@@ -20,7 +20,10 @@ CREATE TABLE IF NOT EXISTS chu_refined.corporate_system_professionnel_sante (
 )
 
 COMMENT 'Table interne REFINED du flux corporate_system_professionnel_sante'
+
+CLUSTERED BY (ID_PROFESSIONNEL)
+INTO 4 BUCKETS
+
 STORED AS ORC
 
-LOCATION '/user/cloudera/chu_dataplatform/refined/corporate/system/professionnel_sante'
-;
+LOCATION '/user/cloudera/chu_dataplatform/refined/corporate/system/professionnel_sante';
