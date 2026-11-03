@@ -12,6 +12,10 @@ CREATE TABLE IF NOT EXISTS chu_refined.soins_system_diagnostic (
 )
 
 COMMENT 'Table interne REFINED soins_system_diagnostic'
+
+CLUSTERED BY (CD_DIAGNOSTIC)
+INTO 4 BUCKETS
+
 STORED AS ORC
 
 LOCATION '/user/cloudera/chu_dataplatform/refined/soins/system/diagnostic'
