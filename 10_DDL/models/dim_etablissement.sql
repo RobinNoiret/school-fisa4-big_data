@@ -1,14 +1,30 @@
-DROP TABLE IF EXISTS chu_dwh.dim_etablissement;
+CREATE TABLE IF NOT EXISTS chu_dwh.dim_etablissement (
 
-CREATE TABLE chu_dwh.dim_etablissement (
-  ID_DIM_ETABLISSEMENT     INT      COMMENT 'Clé de substitution de l’établissement. [PK]',
-  ID_ORGANISATION          STRING   COMMENT 'Identifiant de l’organisation (clé naturelle).',
-  CD_FINESS_SITE           STRING   COMMENT 'Numéro FINESS géographique.',
-  TXT_RAISON_SOCIALE       STRING   COMMENT 'Raison sociale.',
-  NM_ENSEIGNE              STRING   COMMENT 'Enseigne commerciale.',
-  CD_POSTAL                STRING   COMMENT 'Code postal.',
-  FK_DIM_VILLE             INT      COMMENT 'Commune de l’établissement. [FK DIM_VILLE.ID_DIM_VILLE]'
+    ID_DIM_ETABLISSEMENT INT
+        COMMENT 'Cle de substitution de l etablissement. [PK logique]',
+
+    ID_ORGANISATION STRING
+        COMMENT 'Identifiant de l organisation.',
+
+    CD_FINESS_SITE STRING
+        COMMENT 'Numero FINESS geographique du site.',
+
+    TXT_RAISON_SOCIALE STRING
+        COMMENT 'Raison sociale.',
+
+    NM_ENSEIGNE STRING
+        COMMENT 'Enseigne commerciale.',
+
+    CD_POSTAL STRING
+        COMMENT 'Code postal de l etablissement.',
+
+    FK_DIM_LOCALISATION INT
+        COMMENT 'Localisation de l etablissement. [FK DIM_LOCALISATION]'
+
 )
-COMMENT 'Dimension – 1 ligne = 1 établissement (organisation)'
-LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_etablissement'
-STORED AS ORC;
+
+COMMENT 'Dimension etablissement'
+
+STORED AS ORC
+
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_etablissement';

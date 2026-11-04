@@ -1,26 +1,116 @@
 -- REFINED -> DWH | dim_patient
 
 WITH patient_source AS (
-    SELECT ID_PATIENT,
-           UPPER(TRIM(CD_SEXE)) AS CD_SEXE,
-           DT_NAISSANCE AS NB_ANNEE_NAISSANCE,
-           UPPER(TRIM(CD_GROUPE_SANGUIN)) AS CD_GROUPE_SANGUIN,
-           UPPER(TRIM(NM_VILLE)) AS NM_VILLE,
-           UPPER(TRIM(CD_DEPARTEMENT)) AS CD_DEPARTEMENT
+
+    SELECT
+        ID_PATIENT,
+
+        CASE
+            WHEN CD_SEXE IS NULL OR TRIM(CD_SEXE) = ''
+            THEN null
+            ELSE UPPER(TRIM(CD_SEXE))
+        END AS CD_SEXE,
+
+        DT_NAISSANCE AS NB_ANNEE_NAISSANCE,
+
+        UPPER(TRIM(CD_GROUPE_SANGUIN)) AS CD_GROUPE_SANGUIN,
+
+        UPPER(TRIM(NM_VILLE)) AS NM_COMMUNE,
+
+        UPPER(TRIM(CD_DEPARTEMENT)) AS CD_DEPARTEMENT,
+
+        UPPER(TRIM(NM_PAYS)) AS NM_PAYS
+
     FROM chu_refined.soins_system_patient
-    WHERE FL_ACTIVE = TRUE AND ID_PATIENT IS NOT NULL
+
+    WHERE FL_ACTIVE = TRUE
+      AND ID_PATIENT IS NOT NULL
+
+),
+
+patient_prepared AS (
+
+    SELECT
+        ID_PATIENT,
+        CD_SEXE,
+        NB_ANNEE_NAISSANCE,
+        CD_GROUPE_SANGUIN,
+        NM_COMMUNE,
+        CD_DEPARTEMENT,
+        NM_PAYS,
+
+        CASE
+            WHEN NB_ANNEE_NAISSANCE IS NULL
+              OR NB_ANNEE_NAISSANCE > 2021
+              OR NB_ANNEE_NAISSANCE < 1900
+            THEN null
+
+            WHEN 2021 - NB_ANNEE_NAISSANCE < 18
+            THEN '00-17'
+
+            WHEN 2021 - NB_ANNEE_NAISSANCE < 30
+            THEN '18-29'
+
+            WHEN 2021 - NB_ANNEE_NAISSANCE < 45
+            THEN '30-44'
+
+            WHEN 2021 - NB_ANNEE_NAISSANCE < 60
+            THEN '45-59'
+
+            WHEN 2021 - NB_ANNEE_NAISSANCE < 75
+            THEN '60-74'
+
+            ELSE '75-PLUS'
+        END AS LB_TRANCHE_AGE
+
+    FROM patient_source
+
+),
+
+localisations_uniques AS (
+
+    SELECT
+        NM_COMMUNE,
+        CD_DEPARTEMENT,
+        NM_PAYS,
+
+        CASE
+            WHEN COUNT(*) = 1 THEN MIN(ID_DIM_LOCALISATION)
+            ELSE NULL
+        END AS ID_DIM_LOCALISATION
+
+    FROM chu_dwh.dim_localisation
+
+    WHERE CD_NIVEAU_LOCALISATION = null
+
+    GROUP BY
+        NM_COMMUNE,
+        CD_DEPARTEMENT,
+        NM_PAYS
+
 )
 
 INSERT OVERWRITE TABLE chu_dwh.dim_patient
 
+PARTITION (CD_SEXE, LB_TRANCHE_AGE)
+
 SELECT
-    ROW_NUMBER() OVER (ORDER BY src.ID_PATIENT) AS ID_DIM_PATIENT,
-    src.ID_PATIENT AS ID_PATIENT,
-    src.CD_SEXE AS CD_SEXE,
-    src.NB_ANNEE_NAISSANCE AS NB_ANNEE_NAISSANCE,
-    src.CD_GROUPE_SANGUIN AS CD_GROUPE_SANGUIN,
-    ville.ID_DIM_VILLE AS FK_DIM_VILLE
-FROM patient_source src
-LEFT JOIN chu_dwh.dim_departement departement ON departement.CD_DEPARTEMENT = src.CD_DEPARTEMENT
-LEFT JOIN chu_dwh.dim_ville ville ON ville.NM_VILLE = src.NM_VILLE
-                                  AND ville.FK_DIM_DEPARTEMENT = departement.ID_DIM_DEPARTEMENT;
+    CAST(
+        ROW_NUMBER() OVER (ORDER BY src.ID_PATIENT)
+        AS INT
+    ) AS ID_DIM_PATIENT,
+
+    src.ID_PATIENT,
+    src.NB_ANNEE_NAISSANCE,
+    src.CD_GROUPE_SANGUIN,
+    loc.ID_DIM_LOCALISATION AS FK_DIM_LOCALISATION,
+
+    src.CD_SEXE,
+    src.LB_TRANCHE_AGE
+
+FROM patient_prepared src
+
+LEFT JOIN localisations_uniques loc
+    ON src.NM_COMMUNE = loc.NM_COMMUNE
+   AND src.CD_DEPARTEMENT <=> loc.CD_DEPARTEMENT
+   AND src.NM_PAYS <=> loc.NM_PAYS;

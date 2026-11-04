@@ -1,10 +1,18 @@
-DROP TABLE IF EXISTS chu_dwh.dim_diagnostic;
+CREATE TABLE IF NOT EXISTS chu_dwh.dim_diagnostic (
 
-CREATE TABLE chu_dwh.dim_diagnostic (
-  ID_DIM_DIAGNOSTIC        INT      COMMENT 'Clé de substitution du diagnostic. [PK]',
-  CD_DIAGNOSTIC            STRING   COMMENT 'Code du diagnostic.',
-  NM_DIAGNOSTIC            STRING   COMMENT 'Libellé du diagnostic.'
+    ID_DIM_DIAGNOSTIC INT
+        COMMENT 'Cle de substitution du diagnostic. [PK logique]',
+
+    CD_DIAGNOSTIC STRING
+        COMMENT 'Code du diagnostic.',
+
+    NM_DIAGNOSTIC STRING
+        COMMENT 'Libelle du diagnostic.'
+
 )
-COMMENT 'Dimension – 1 ligne = 1 diagnostic'
-LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_diagnostic'
-STORED AS ORC;
+
+COMMENT 'Dimension : une ligne par diagnostic'
+
+STORED AS ORC
+
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_diagnostic';

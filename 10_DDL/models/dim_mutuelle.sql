@@ -1,10 +1,18 @@
-DROP TABLE IF EXISTS chu_dwh.dim_mutuelle;
+CREATE TABLE IF NOT EXISTS chu_dwh.dim_mutuelle (
 
-CREATE TABLE chu_dwh.dim_mutuelle (
-  ID_DIM_MUTUELLE          INT      COMMENT 'Clé de substitution de la mutuelle. [PK]',
-  ID_MUTUELLE              INT      COMMENT 'Identifiant de la mutuelle (clé naturelle).',
-  NM_MUTUELLE              STRING   COMMENT 'Nom de la mutuelle.'
+    ID_DIM_MUTUELLE INT
+        COMMENT 'Cle de substitution de la mutuelle. [PK logique]',
+
+    ID_MUTUELLE INT
+        COMMENT 'Identifiant de la mutuelle.',
+
+    NM_MUTUELLE STRING
+        COMMENT 'Nom de la mutuelle.'
+
 )
-COMMENT 'Dimension – 1 ligne = 1 mutuelle'
-LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_mutuelle'
-STORED AS ORC;
+
+COMMENT 'Dimension : une ligne par mutuelle'
+
+STORED AS ORC
+
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_mutuelle';

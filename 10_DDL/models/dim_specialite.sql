@@ -1,11 +1,21 @@
-DROP TABLE IF EXISTS chu_dwh.dim_specialite;
+CREATE TABLE IF NOT EXISTS chu_dwh.dim_specialite (
 
-CREATE TABLE chu_dwh.dim_specialite (
-  ID_DIM_SPECIALITE        INT      COMMENT 'Clé de substitution de la spécialité. [PK]',
-  CD_SPECIALITE            STRING   COMMENT 'Code de la spécialité.',
-  NM_SPECIALITE            STRING   COMMENT 'Libellé de la spécialité.',
-  NM_FONCTION              STRING   COMMENT 'Fonction.'
+    ID_DIM_SPECIALITE INT
+        COMMENT 'Cle de substitution de la specialite. [PK logique]',
+
+    CD_SPECIALITE STRING
+        COMMENT 'Code de la specialite.',
+
+    NM_SPECIALITE STRING
+        COMMENT 'Libelle de la specialite.',
+
+    NM_FONCTION STRING
+        COMMENT 'Fonction associee.'
+
 )
-COMMENT 'Dimension – 1 ligne = 1 spécialité'
-LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_specialite'
-STORED AS ORC;
+
+COMMENT 'Dimension : une ligne par specialite'
+
+STORED AS ORC
+
+LOCATION '/user/cloudera/chu_dataplatform/dwh/dim_specialite';
