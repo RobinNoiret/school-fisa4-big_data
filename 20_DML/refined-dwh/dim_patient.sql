@@ -7,7 +7,8 @@ WITH patient_source AS (
 
         CASE
             WHEN CD_SEXE IS NULL OR TRIM(CD_SEXE) = ''
-            THEN null
+            THEN CAST(NULL AS STRING)
+
             ELSE UPPER(TRIM(CD_SEXE))
         END AS CD_SEXE,
 
@@ -17,9 +18,23 @@ WITH patient_source AS (
 
         UPPER(TRIM(NM_VILLE)) AS NM_COMMUNE,
 
-        UPPER(TRIM(CD_DEPARTEMENT)) AS CD_DEPARTEMENT,
+        CASE
+            WHEN CD_DEPARTEMENT IS NULL
+              OR TRIM(CD_DEPARTEMENT) = ''
+            THEN CAST(NULL AS STRING)
 
-        UPPER(TRIM(NM_PAYS)) AS NM_PAYS
+            ELSE UPPER(TRIM(CD_DEPARTEMENT))
+        END AS CD_DEPARTEMENT,
+
+        CASE
+            WHEN NM_PAYS IS NULL OR TRIM(NM_PAYS) = ''
+            THEN CAST(NULL AS STRING)
+
+            WHEN UPPER(TRIM(NM_PAYS)) IN ('FR', 'FRANCE', '4')
+            THEN 'FRANCE'
+
+            ELSE UPPER(TRIM(NM_PAYS))
+        END AS NM_PAYS
 
     FROM chu_refined.soins_system_patient
 
@@ -43,7 +58,7 @@ patient_prepared AS (
             WHEN NB_ANNEE_NAISSANCE IS NULL
               OR NB_ANNEE_NAISSANCE > 2021
               OR NB_ANNEE_NAISSANCE < 1900
-            THEN null
+            THEN CAST(NULL AS STRING)
 
             WHEN 2021 - NB_ANNEE_NAISSANCE < 18
             THEN '00-17'
@@ -75,13 +90,15 @@ localisations_uniques AS (
         NM_PAYS,
 
         CASE
-            WHEN COUNT(*) = 1 THEN MIN(ID_DIM_LOCALISATION)
+            WHEN COUNT(*) = 1
+            THEN MIN(ID_DIM_LOCALISATION)
+
             ELSE NULL
         END AS ID_DIM_LOCALISATION
 
     FROM chu_dwh.dim_localisation
 
-    WHERE CD_NIVEAU_LOCALISATION = null
+    WHERE CD_NIVEAU_LOCALISATION = 'COMMUNE'
 
     GROUP BY
         NM_COMMUNE,
@@ -96,16 +113,23 @@ PARTITION (CD_SEXE, LB_TRANCHE_AGE)
 
 SELECT
     CAST(
-        ROW_NUMBER() OVER (ORDER BY src.ID_PATIENT)
+        ROW_NUMBER() OVER (
+            ORDER BY src.ID_PATIENT
+        )
         AS INT
     ) AS ID_DIM_PATIENT,
 
     src.ID_PATIENT,
+
     src.NB_ANNEE_NAISSANCE,
+
     src.CD_GROUPE_SANGUIN,
+
     loc.ID_DIM_LOCALISATION AS FK_DIM_LOCALISATION,
 
+    -- Colonnes de partition dynamique en derniere position
     src.CD_SEXE,
+
     src.LB_TRANCHE_AGE
 
 FROM patient_prepared src
