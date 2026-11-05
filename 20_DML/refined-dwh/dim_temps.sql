@@ -17,7 +17,7 @@ WITH jours_generes AS (
 
             REPEAT(
                 'x,',
-                DATEDIFF('2021-12-31', '2015-01-01') + 1
+                DATEDIFF('2026-12-31', '2015-01-01') + 1
             ),
 
             ','
@@ -46,9 +46,10 @@ PARTITION (NB_ANNEE)
 
 SELECT
     CAST(
-        FROM_UNIXTIME(
-            UNIX_TIMESTAMP(DT_JOUR),
-            'yyyyMMdd'
+        REGEXP_REPLACE(
+            CAST(DT_JOUR AS STRING),
+            '-',
+            ''
         )
         AS INT
     ) AS ID_DIM_TEMPS,
