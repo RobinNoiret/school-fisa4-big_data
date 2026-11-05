@@ -3,14 +3,26 @@
 WITH communes_patients AS (
 
     SELECT DISTINCT
-        null AS CD_NIVEAU_LOCALISATION,
+        'COMMUNE' AS CD_NIVEAU_LOCALISATION,
         CAST(NULL AS STRING) AS CD_COMMUNE,
         UPPER(TRIM(NM_VILLE)) AS NM_COMMUNE,
-        UPPER(TRIM(CD_DEPARTEMENT)) AS CD_DEPARTEMENT,
+        CASE
+            WHEN CD_DEPARTEMENT IS NULL
+              OR TRIM(CD_DEPARTEMENT) = ''
+            THEN CAST(NULL AS STRING)
+            ELSE UPPER(TRIM(CD_DEPARTEMENT))
+        END AS CD_DEPARTEMENT,
         CAST(NULL AS STRING) AS NM_DEPARTEMENT,
         CAST(NULL AS STRING) AS CD_REGION,
-        UPPER(TRIM(NM_PAYS)) AS NM_PAYS,
-        null AS NM_REGION
+        CASE
+            WHEN NM_PAYS IS NULL
+              OR TRIM(NM_PAYS) = ''
+            THEN CAST(NULL AS STRING)
+            WHEN UPPER(TRIM(NM_PAYS)) IN ('FR', 'FRANCE')
+            THEN 'FRANCE'
+            ELSE UPPER(TRIM(NM_PAYS))
+        END AS NM_PAYS,
+        NULL AS NM_REGION
 
     FROM chu_refined.soins_system_patient
 
@@ -23,14 +35,28 @@ WITH communes_patients AS (
 communes_etablissements AS (
 
     SELECT DISTINCT
-        null AS CD_NIVEAU_LOCALISATION,
+        'COMMUNE' AS CD_NIVEAU_LOCALISATION,
         UPPER(TRIM(CD_COMMUNE)) AS CD_COMMUNE,
-        UPPER(TRIM(TXT_COMMUNE)) AS NM_COMMUNE,
+        CASE
+            WHEN TXT_COMMUNE IS NULL
+              OR TRIM(TXT_COMMUNE) = ''
+            THEN CAST(NULL AS STRING)
+            WHEN TRIM(TXT_COMMUNE) RLIKE '^[0-9]+$'
+            THEN CAST(NULL AS STRING)
+            ELSE UPPER(TRIM(TXT_COMMUNE))
+        END AS NM_COMMUNE,
         CAST(NULL AS STRING) AS CD_DEPARTEMENT,
         CAST(NULL AS STRING) AS NM_DEPARTEMENT,
         CAST(NULL AS STRING) AS CD_REGION,
-        UPPER(TRIM(NM_PAYS)) AS NM_PAYS,
-        null AS NM_REGION
+        CASE
+            WHEN NM_PAYS IS NULL
+              OR TRIM(NM_PAYS) = ''
+            THEN CAST(NULL AS STRING)
+            WHEN UPPER(TRIM(NM_PAYS)) IN ('FR', 'FRANCE')
+            THEN 'FRANCE'
+            ELSE UPPER(TRIM(NM_PAYS))
+        END AS NM_PAYS,
+        NULL AS NM_REGION
 
     FROM chu_refined.corporate_system_etablissement
 
@@ -43,14 +69,18 @@ communes_etablissements AS (
 pays_patients AS (
 
     SELECT DISTINCT
-        null AS CD_NIVEAU_LOCALISATION,
+        'PAYS' AS CD_NIVEAU_LOCALISATION,
         CAST(NULL AS STRING) AS CD_COMMUNE,
         CAST(NULL AS STRING) AS NM_COMMUNE,
         CAST(NULL AS STRING) AS CD_DEPARTEMENT,
         CAST(NULL AS STRING) AS NM_DEPARTEMENT,
         CAST(NULL AS STRING) AS CD_REGION,
-        UPPER(TRIM(NM_PAYS)) AS NM_PAYS,
-        null AS NM_REGION
+        CASE
+            WHEN UPPER(TRIM(NM_PAYS)) IN ('FR', 'FRANCE')
+            THEN 'FRANCE'
+            ELSE UPPER(TRIM(NM_PAYS))
+        END AS NM_PAYS,
+        NULL AS NM_REGION
 
     FROM chu_refined.soins_system_patient
 
@@ -62,15 +92,45 @@ pays_patients AS (
 
 localisations_source AS (
 
-    SELECT * FROM communes_patients
+    SELECT
+        CD_NIVEAU_LOCALISATION,
+        CD_COMMUNE,
+        NM_COMMUNE,
+        CD_DEPARTEMENT,
+        NM_DEPARTEMENT,
+        CD_REGION,
+        NM_PAYS,
+        NM_REGION
+
+    FROM communes_patients
 
     UNION ALL
 
-    SELECT * FROM communes_etablissements
+    SELECT
+        CD_NIVEAU_LOCALISATION,
+        CD_COMMUNE,
+        NM_COMMUNE,
+        CD_DEPARTEMENT,
+        NM_DEPARTEMENT,
+        CD_REGION,
+        NM_PAYS,
+        NM_REGION
+
+    FROM communes_etablissements
 
     UNION ALL
 
-    SELECT * FROM pays_patients
+    SELECT
+        CD_NIVEAU_LOCALISATION,
+        CD_COMMUNE,
+        NM_COMMUNE,
+        CD_DEPARTEMENT,
+        NM_DEPARTEMENT,
+        CD_REGION,
+        NM_PAYS,
+        NM_REGION
+
+    FROM pays_patients
 
 ),
 
@@ -106,7 +166,6 @@ SELECT
         )
         AS INT
     ) AS ID_DIM_LOCALISATION,
-
     CD_NIVEAU_LOCALISATION,
     CD_COMMUNE,
     NM_COMMUNE,
