@@ -1,40 +1,25 @@
 CREATE TABLE IF NOT EXISTS chu_dwh.fact_hospitalisation (
 
-    ID_HOSPITALISATION INT
-        COMMENT 'Identifiant du sejour. [PK logique]',
-
-    FK_DIM_TEMPS_ENTREE INT
-        COMMENT 'Date d entree. [FK DIM_TEMPS]',
-
-    FK_DIM_TEMPS_SORTIE INT
-        COMMENT 'Date de sortie. [FK DIM_TEMPS]',
-
-    FK_DIM_PATIENT INT
-        COMMENT 'Patient hospitalise. [FK DIM_PATIENT]',
-
-    FK_DIM_ETABLISSEMENT INT
-        COMMENT 'Etablissement d hospitalisation. [FK DIM_ETABLISSEMENT]',
-
-    FK_DIM_DIAGNOSTIC INT
-        COMMENT 'Diagnostic d hospitalisation. [FK DIM_DIAGNOSTIC]',
+    ID_HOSPITALISATION INT,
+    FK_DIM_TEMPS_ENTREE INT,
+    FK_DIM_TEMPS_SORTIE INT,
+    FK_DIM_PATIENT INT,
+    FK_DIM_ETABLISSEMENT INT,
+    FK_DIM_DIAGNOSTIC INT,
 
     NB_AGE_PATIENT INT
-        COMMENT 'Age estime du patient a l entree en annees.',
+        COMMENT 'Age estime du patient a l entree',
 
-    DUR_SEJOUR_JOUR INT
-        COMMENT 'Duree du sejour en jours.',
-
+    DUR_SEJOUR_JOUR INT,
     DESC_DIAGNOSTIC STRING
-        COMMENT 'Suite donnee au diagnostic.'
 
 )
 
-COMMENT 'Fait : une ligne par sejour d hospitalisation'
+COMMENT 'Fait : une ligne par hospitalisation'
 
 PARTITIONED BY (
 
     NB_ANNEE_ENTREE INT
-        COMMENT 'Annee d entree en hospitalisation.'
 
 )
 

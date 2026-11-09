@@ -1,17 +1,12 @@
 CREATE TABLE IF NOT EXISTS chu_dwh.dim_diagnostic (
 
-    ID_DIM_DIAGNOSTIC INT
-        COMMENT 'Cle de substitution du diagnostic. [PK logique]',
-
-    CD_DIAGNOSTIC STRING
-        COMMENT 'Code du diagnostic.',
-
+    ID_DIM_DIAGNOSTIC INT,
+    CD_DIAGNOSTIC STRING,
     NM_DIAGNOSTIC STRING
-        COMMENT 'Libelle du diagnostic.'
 
 )
 
-COMMENT 'Dimension : une ligne par diagnostic'
+COMMENT 'Dimension diagnostic'
 
 STORED AS ORC
 

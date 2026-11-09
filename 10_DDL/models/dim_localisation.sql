@@ -1,37 +1,31 @@
 CREATE TABLE IF NOT EXISTS chu_dwh.dim_localisation (
 
     ID_DIM_LOCALISATION INT
-        COMMENT 'Cle de substitution de la localisation. [PK logique]',
+        COMMENT 'Cle de substitution de la localisation',
 
     CD_NIVEAU_LOCALISATION STRING
-        COMMENT 'Niveau : COMMUNE, PAYS ou INCONNUE.',
+        COMMENT 'Niveau de localisation : COMMUNE, DEPARTEMENT ou PAYS',
 
     CD_COMMUNE STRING
-        COMMENT 'Code commune, notamment code INSEE pour la France.',
+        COMMENT 'Code commune INSEE si disponible',
 
     NM_COMMUNE STRING
-        COMMENT 'Nom de la commune.',
+        COMMENT 'Nom commune si disponible',
 
     CD_DEPARTEMENT STRING
-        COMMENT 'Code departement.',
-
-    NM_DEPARTEMENT STRING
-        COMMENT 'Nom du departement.',
-
-    CD_REGION STRING
-        COMMENT 'Code region.',
+        COMMENT 'Code departement si disponible',
 
     NM_PAYS STRING
-        COMMENT 'Nom du pays.'
+        COMMENT 'Nom pays normalise'
 
 )
 
-COMMENT 'Dimension localisation partitionnee par region'
+COMMENT 'Dimension localisation'
 
 PARTITIONED BY (
 
     NM_REGION STRING
-        COMMENT 'Nom de la region.'
+        COMMENT 'Region deduite si possible'
 
 )
 

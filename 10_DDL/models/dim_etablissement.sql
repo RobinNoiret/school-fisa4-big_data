@@ -1,25 +1,25 @@
 CREATE TABLE IF NOT EXISTS chu_dwh.dim_etablissement (
 
     ID_DIM_ETABLISSEMENT INT
-        COMMENT 'Cle de substitution de l etablissement. [PK logique]',
+        COMMENT 'Cle de substitution de l etablissement',
 
     ID_ORGANISATION STRING
-        COMMENT 'Identifiant de l organisation.',
+        COMMENT 'Identifiant organisation',
 
     CD_FINESS_SITE STRING
-        COMMENT 'Numero FINESS geographique du site.',
+        COMMENT 'Code FINESS du site',
 
     TXT_RAISON_SOCIALE STRING
-        COMMENT 'Raison sociale.',
+        COMMENT 'Raison sociale',
 
     NM_ENSEIGNE STRING
-        COMMENT 'Enseigne commerciale.',
+        COMMENT 'Enseigne commerciale',
 
     CD_POSTAL STRING
-        COMMENT 'Code postal de l etablissement.',
+        COMMENT 'Code postal',
 
     FK_DIM_LOCALISATION INT
-        COMMENT 'Localisation de l etablissement. [FK DIM_LOCALISATION]'
+        COMMENT 'Localisation de l etablissement'
 
 )
 

@@ -32,8 +32,13 @@ INSERT OVERWRITE TABLE chu_dwh.dim_specialite
 
 SELECT
     CAST(
-        ROW_NUMBER() OVER (ORDER BY CD_SPECIALITE)
+
+        ROW_NUMBER() OVER (
+            ORDER BY CD_SPECIALITE
+        )
+
         AS INT
+
     ) AS ID_DIM_SPECIALITE,
 
     CD_SPECIALITE,

@@ -4,11 +4,17 @@ WITH hospitalisation_source AS (
 
     SELECT
         ID_HOSPITALISATION,
+
         ID_PATIENT,
-        TRIM(ID_ORIGANISATION) AS ID_ORGANISATION,
+
+        TRIM(ID_ORGANISATIONN) AS ID_ORGANISATION,
+
         UPPER(TRIM(CD_DIAGNOSTIC)) AS CD_DIAGNOSTIC,
+
         TRIM(DESC_DIAGNOSTIC) AS DESC_DIAGNOSTIC,
+
         TO_DATE(DT_ENTREE) AS DT_ENTREE,
+
         NB_JOUR
 
     FROM chu_refined.soins_system_hospitalisation
@@ -29,7 +35,9 @@ hospitalisation_prepared AS (
         CD_DIAGNOSTIC,
         DESC_DIAGNOSTIC,
         DT_ENTREE,
+
         DATE_ADD(DT_ENTREE, NB_JOUR) AS DT_SORTIE,
+
         NB_JOUR
 
     FROM hospitalisation_source
@@ -45,11 +53,16 @@ etablissements_uniques AS (
         ID_ORGANISATION,
 
         CASE
-            WHEN COUNT(*) = 1 THEN MIN(ID_DIM_ETABLISSEMENT)
+            WHEN COUNT(*) = 1
+            THEN MIN(ID_DIM_ETABLISSEMENT)
+
             ELSE NULL
         END AS ID_DIM_ETABLISSEMENT
 
     FROM chu_dwh.dim_etablissement
+
+    WHERE ID_ORGANISATION IS NOT NULL
+      AND TRIM(ID_ORGANISATION) <> ''
 
     GROUP BY ID_ORGANISATION
 
@@ -61,22 +74,32 @@ PARTITION (NB_ANNEE_ENTREE)
 
 SELECT
     src.ID_HOSPITALISATION,
+
     temps_entree.ID_DIM_TEMPS AS FK_DIM_TEMPS_ENTREE,
+
     temps_sortie.ID_DIM_TEMPS AS FK_DIM_TEMPS_SORTIE,
+
     patient.ID_DIM_PATIENT AS FK_DIM_PATIENT,
+
     etablissement.ID_DIM_ETABLISSEMENT AS FK_DIM_ETABLISSEMENT,
+
     diagnostic.ID_DIM_DIAGNOSTIC AS FK_DIM_DIAGNOSTIC,
 
     CASE
         WHEN patient.NB_ANNEE_NAISSANCE IS NOT NULL
          AND patient.NB_ANNEE_NAISSANCE <= YEAR(src.DT_ENTREE)
-        THEN YEAR(src.DT_ENTREE) - patient.NB_ANNEE_NAISSANCE
+
+        THEN YEAR(src.DT_ENTREE)
+             - patient.NB_ANNEE_NAISSANCE
+
         ELSE NULL
     END AS NB_AGE_PATIENT,
 
     src.NB_JOUR AS DUR_SEJOUR_JOUR,
+
     src.DESC_DIAGNOSTIC,
 
+    -- Colonne de partition dynamique en derniere position
     YEAR(src.DT_ENTREE) AS NB_ANNEE_ENTREE
 
 FROM hospitalisation_prepared src

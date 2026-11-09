@@ -29,8 +29,13 @@ INSERT OVERWRITE TABLE chu_dwh.dim_mutuelle
 
 SELECT
     CAST(
-        ROW_NUMBER() OVER (ORDER BY ID_MUTUELLE)
+
+        ROW_NUMBER() OVER (
+            ORDER BY ID_MUTUELLE
+        )
+
         AS INT
+
     ) AS ID_DIM_MUTUELLE,
 
     ID_MUTUELLE,

@@ -1,34 +1,34 @@
 CREATE TABLE IF NOT EXISTS chu_dwh.dim_temps (
 
     ID_DIM_TEMPS INT
-        COMMENT 'Cle jour au format AAAAMMJJ. [PK logique]',
+        COMMENT 'Cle jour au format AAAAMMJJ',
 
     DT_JOUR DATE
-        COMMENT 'Date du jour.',
+        COMMENT 'Date du jour',
 
     NB_JOUR INT
-        COMMENT 'Jour du mois.',
+        COMMENT 'Jour du mois',
 
     NM_JOUR_SEMAINE STRING
-        COMMENT 'Nom du jour de la semaine.',
+        COMMENT 'Nom du jour de la semaine',
 
     NB_MOIS INT
-        COMMENT 'Numero du mois.',
+        COMMENT 'Numero du mois',
 
     NM_MOIS STRING
-        COMMENT 'Nom du mois.',
+        COMMENT 'Nom du mois',
 
     FL_WEEK_END BOOLEAN
-        COMMENT 'Indique si le jour est un samedi ou un dimanche.'
+        COMMENT 'Indique si le jour est un samedi ou un dimanche'
 
 )
 
-COMMENT 'Dimension temps partitionnee par annee'
+COMMENT 'Dimension temps du 01/01/2015 au 31/12/2026'
 
 PARTITIONED BY (
 
     NB_ANNEE INT
-        COMMENT 'Annee.'
+        COMMENT 'Annee'
 
 )
 

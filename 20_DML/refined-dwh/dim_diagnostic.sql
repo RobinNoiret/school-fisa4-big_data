@@ -30,8 +30,13 @@ INSERT OVERWRITE TABLE chu_dwh.dim_diagnostic
 
 SELECT
     CAST(
-        ROW_NUMBER() OVER (ORDER BY CD_DIAGNOSTIC)
+
+        ROW_NUMBER() OVER (
+            ORDER BY CD_DIAGNOSTIC
+        )
+
         AS INT
+
     ) AS ID_DIM_DIAGNOSTIC,
 
     CD_DIAGNOSTIC,

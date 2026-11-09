@@ -30,8 +30,7 @@ WITH jours_generes AS (
 
 jours_periode AS (
 
-    SELECT
-        DT_JOUR
+    SELECT DT_JOUR
 
     FROM jours_generes
 
@@ -46,11 +45,7 @@ PARTITION (NB_ANNEE)
 
 SELECT
     CAST(
-        REGEXP_REPLACE(
-            CAST(DT_JOUR AS STRING),
-            '-',
-            ''
-        )
+        REGEXP_REPLACE(CAST(DT_JOUR AS STRING), '-', '')
         AS INT
     ) AS ID_DIM_TEMPS,
 

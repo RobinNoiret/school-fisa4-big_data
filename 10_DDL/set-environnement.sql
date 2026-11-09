@@ -21,3 +21,4 @@ SET mapreduce.reduce.memory.mb=1024;
 SET mapreduce.map.java.opts=-Djava.net.preferIPv4Stack=true -Xmx768m;
 SET mapreduce.reduce.java.opts=-Djava.net.preferIPv4Stack=true -Xmx768m;
 
+SET hive.auto.convert.join=false;
